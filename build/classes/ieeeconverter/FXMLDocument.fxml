@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" fx:id="MainPane" prefHeight="189.0" prefWidth="390.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="ieeeconverter.FXMLDocumentController">
+    <children>
+        <Button fx:id="Start" layoutX="140.0" layoutY="117.0" onAction="#handleButtonAction" text="Start" />
+      <Button fx:id="Cancel_Btn" layoutX="195.0" layoutY="117.0" onAction="#handleCancel" text="Cancel" />
+      <ComboBox fx:id="optionBox" layoutX="120.0" layoutY="62.0" prefWidth="150.0" />
+    </children>
+</AnchorPane>
