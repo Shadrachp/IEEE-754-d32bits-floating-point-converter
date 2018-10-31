@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="IEEEConverter">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/IEEEConverter.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
