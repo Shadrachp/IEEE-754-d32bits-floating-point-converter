@@ -19,7 +19,6 @@ public class Converter {
     private String sMantissa; //Mantissa for the output 20bits
     private char cSign; //The sign bit of decimal +/- later to 1/0 //done
     private char cExpSign; //The sign char of exponent +/-
-    private Output sResult1; // binary output
     private String sResult2 =""; // Hexadecimal output
     private char MSB;
     private String binMSB;
@@ -43,7 +42,6 @@ public class Converter {
             stringToInt(sBase); //Throws an error if it contains letters
             if(!sBase.equals("10")) {
                 invalidInput();
-                System.out.println("12312");
             }
 //           if(cExpSign == '-') this.nExponent *= -1;
         }catch(Exception e){
@@ -69,21 +67,16 @@ public class Converter {
             extend();
             setMSB();
             String decBCD = toBCD(sDecimal.substring(1));
-            System.out.println("STRING1: "+sExponent);
-
             sExponent = toBinary(ePrime(sExponent));
-            System.out.println("STRING2: "+sExponent);
 
             if (sExponent.length() < 8)
                 sExponent = extend(sExponent, 8 - sExponent.length());
-            System.out.println("STRING3: "+sExponent);
 
             seCB = get2Bits(sExponent);
             if (MSB == '8' || MSB == '9')
                 sCB = "11" + seCB + binMSB.charAt(binMSB.length() - 1);
             else
                 sCB = seCB + binMSB.substring(1);
-            System.out.println("STRING: "+sExponent);
 
             return new Output(cSign, sCB, sExponent.substring(2), sMantissa);
         }
@@ -141,7 +134,6 @@ public class Converter {
         for (int i = 0; i < str.length(); i++) {
             String bin = toBinary(Integer.parseInt(str.charAt(i) + ""));
             bin = extend(bin, 4 - bin.length());
-            System.out.println("Binary ("+ str.charAt(i)+"): " + bin);
             BCD += bin;
         }
         return BCD;
@@ -217,6 +209,4 @@ public class Converter {
            sExponent = "" + (stringToInt(sExponent) - arr[arr.length -1].length());
         }
     }
-
-
 }
