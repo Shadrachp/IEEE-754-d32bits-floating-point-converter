@@ -1,10 +1,9 @@
-package Controller;
+package Model;
 
 
 import java.io.IOException;
 
 import Model.Output;
-import javafx.scene.control.TextArea;
 
 /*
 * IEEE-756/2018 converter
@@ -37,7 +36,6 @@ public class Converter {
             cExpSign = getSign(sExponent);
             this.sDecimal = sDecimal;
             this.sExponent = sExponent;
-            stringToInt(sDecimal); //Throws an error if it contains letters
             stringToInt(sExponent); //Throws an error if it contains letters
             stringToInt(sBase); //Throws an error if it contains letters
             if(!sBase.equals("10")) {
@@ -46,6 +44,7 @@ public class Converter {
 //           if(cExpSign == '-') this.nExponent *= -1;
         }catch(Exception e){
            invalidInput();
+            System.out.println("error");
         }
     }
 
@@ -64,9 +63,12 @@ public class Converter {
         if(sResult2 != null) {
             String sCB, seCB;
             normalize();
-            extend();
+            System.out.println(sDecimal.length());
+            sDecimal = extend(sDecimal, 7-sDecimal.length());
             setMSB();
-            String decBCD = toBCD(sDecimal.substring(1));
+            System.out.println(sDecimal);
+            String decBCD1 = toBCD(sDecimal.substring(1,4), " ");
+            String decBCD2 = toBCD(sDecimal.substring(4, 7), " ");
             sExponent = toBinary(ePrime(sExponent));
 
             if (sExponent.length() < 8)
@@ -77,7 +79,8 @@ public class Converter {
                 sCB = "11" + seCB + binMSB.charAt(binMSB.length() - 1);
             else
                 sCB = seCB + binMSB.substring(1);
-
+            sMantissa = new DenselyPackedBCD(decBCD1.split(" ")).convert();
+            sMantissa = sMantissa + " " + new DenselyPackedBCD(decBCD2.split(" ")).convert();
             return new Output(cSign, sCB, sExponent.substring(2), sMantissa);
         }
         return null;
@@ -119,7 +122,7 @@ public class Converter {
      */
     private void setMSB(){
         MSB = sDecimal.charAt(0);
-        binMSB = toBCD(MSB+"");
+        binMSB = toBCD(MSB+"", "");
     }
 
     /**
@@ -127,14 +130,14 @@ public class Converter {
      * @param str [String] - input to be converted (base10)
      * returns the BCD equivalent of the input
      */
-    private String toBCD(String str){
+    private String toBCD(String str, String split){
         String BCD = "";
         if(str.contains("-") || str.contains("+"))
             str = str.substring(1);
         for (int i = 0; i < str.length(); i++) {
             String bin = toBinary(Integer.parseInt(str.charAt(i) + ""));
             bin = extend(bin, 4 - bin.length());
-            BCD += bin;
+            BCD += bin + split;
         }
         return BCD;
     }
